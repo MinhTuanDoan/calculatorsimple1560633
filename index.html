@@ -1,0 +1,98 @@
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8">  
+    <title>Form Calculator Add Example</title> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head> 
+<body> 
+  <input type="number" id="soa"><br>
+  <input type="number" id="sob"><br>
+  <h3>jQuery Ajax GET</h3>
+  <button type="submit" class = "AjaxGet" id = "AGCong" value = "+">+</button>
+  <button type="submit" class = "AjaxGet" id = "AGTru" value = "-">-</button>
+  <button type="submit" class = "AjaxGet" id = "AGNhan" value = "x">x</button>
+  <button type="submit" class = "AjaxGet" id = "AGChia" value = "/">:</button><br>
+  <span id='rs'>Kết quả là : </span><br>
+  <h3>jQuery Ajax POST</h3>
+  <button type="submit" class = "AjaxPost" id = "APCong" value = "+">+</button>
+  <button type="submit" class = "AjaxPost" id = "APTru" value = "-">-</button>
+  <button type="submit" class = "AjaxPost" id = "APNhan" value = "x">x</button>
+  <button type="submit" class = "AjaxPost" id = "APChia" value = "/">:</button><br>
+  <span id='rs1'>Kết quả là : </span><br>
+  <h3>XMLHttpRequest GET</h3>
+  <button type="submit" class = "XGet" id = "XGCong" value = "+">+</button>
+  <button type="submit" class = "XGet" id = "XGTru" value = "-">-</button>
+  <button type="submit" class = "XGet" id = "XGNhan" value = "x">x</button>
+  <button type="submit" class = "XGet" id = "XGChia" value = "/">:</button><br>
+  <span id='rs2'>Kết quả là : </span><br>
+  <h3>XMLHttpRequest POST</h3>
+  <button type="submit" class = "XPost" id = "XPCong" value = "+">+</button>
+  <button type="submit" class = "XPost" id = "XPTru" value = "-">-</button>
+  <button type="submit" class = "XPost" id = "XPNhan" value = "x">x</button>
+  <button type="submit" class = "XPost" id = "XPChia" value = "/">:</button><br>
+  <span id='rs3'>Kết quả là : </span><br>
+  <script> 
+  $(document).ready(function(){
+    $("button").click(function(e){
+      var soa = parseInt($("#soa").val())
+      var sob = parseInt($("#sob").val())
+      //Ajax GET
+      if(e.target.className == "AjaxGet"){
+        var u = '/'+ this.id + '/' + soa + '/' + sob
+        $.ajax({
+          url:u,
+          method: 'GET',
+          dataType: 'json',
+          success:function(result){
+            document.getElementById("rs").innerHTML = "Kết quả là: " + result
+          }
+        })
+      }
+      else if(e.target.className == "AjaxPost"){
+          //Ajax POST
+        var data= {}
+        data.a = soa
+        data.b = sob
+        $.ajax({
+          url: '/' + this.id,
+          method: 'POST',
+          data:JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json',
+          success:function(result){
+            document.getElementById("rs1").innerHTML = "Kết quả là: " + result
+          }
+        })
+      }
+      else if(e.target.className == "XGet"){
+        var u = '/'+ this.id + '/' + soa + '/' + sob
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("rs2").innerHTML = "Kết quả là: " + this.responseText;
+          }
+        };
+        xhttp.open("GET", u , true);
+        xhttp.send();
+      }
+      else if(e.target.className == "XPost"){
+        var xhttp = new XMLHttpRequest();
+        var data= {}
+        data.a = soa
+        data.b = sob
+        //xhttp.data = JSON.stringify(data);
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("rs3").innerHTML = "Kết quả là: " + this.responseText;
+          }
+        };
+        var u = '/' + this.id
+        xhttp.open("POST", u , true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(JSON.stringify(data));
+      } 
+    })
+  })
+  </script> 
+</body> 
+</html>
