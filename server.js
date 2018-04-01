@@ -58,6 +58,6 @@ app.post('/:operator',(req,res)=>{
     res.send(rs.toString());
 })
 
-http.listen(3382,'localhost', function(){
+http.listen(3000,'https://calculatorsimple1560633.herokuapp.com/', function(){
     console.log('Listening...')
 })
