@@ -57,8 +57,6 @@ app.post('/:operator',(req,res)=>{
     }
     res.send(rs.toString());
 })
-
-app.listen(3000, 'localhost')
-//http.listen(3000,'localhost', function(){
-//    console.log('Listening...')
-//})
+http.listen(3000,'localhost', function(){
+    console.log('Listening...')
+})
